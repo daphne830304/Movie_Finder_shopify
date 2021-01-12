@@ -1,0 +1,16 @@
+.myInput{
+    /* position: fixed !important; */
+    margin-top: 4em;
+    margin-left: 2em;
+    border: 1px solid #ddd; /* Add a grey border */
+    /* margin-bottom: 12px; */
+  }
+
+
+#nominates {
+  margin-left:20rem
+}
+
+#tables-id {
+  margin-top: 4em;
+}
