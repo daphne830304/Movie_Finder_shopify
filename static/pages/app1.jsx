@@ -60,10 +60,10 @@ function Movies (props) {
           <td>{props.Title}</td>
           <td>({props.Year})</td>
 
-          {/* <button onClick={()=>history.push(`/movies/${props.id}`, 
+          <button onClick={()=>history.push(`/movies/${props.id}`, 
                                             {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
-          click to see details</button> */}
-          {/* <button onClick={()=> props.addposter(props.Poster)}>click to see poster</button> */}
+          click to see details</button>
+          <button onClick={()=> props.addposter(props.Poster)}>click to see poster</button>
           <button id='nominate-id' disabled={clicked} onClick={() => {props.addnominates(props.Title);Updateclicked(true)}}>Nominate</button>
         </tr>
         </React.Fragment>
@@ -104,7 +104,6 @@ function MoviesTable(props) {
         // console.log('this is hte list of the',updated_nominates)
         // console.log(typeof(updated_nominates))
         // console.log(typeof(nominates)
-        )
 
     }
     
@@ -147,15 +146,18 @@ function SearchBar(props){
             
     </div>)
 }
-
-function AllComponents () {
-  const initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
+let initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
+  
   if (!initialNominates) {
     localStorage.setItem('myValueInLocalStorage', JSON.stringify([]));
+    initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
   }
   
   
   console.log(initialNominates)
+function AllComponents () {
+  
+  
 
   const [searchTerm, updateSearchTerm] = React.useState('');
   const [nominates, UpdateNominates] = React.useState(initialNominates)
