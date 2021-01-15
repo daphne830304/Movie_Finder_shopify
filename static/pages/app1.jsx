@@ -2,17 +2,13 @@ const {Table} = ReactBootstrap;
 
 function Nominates(props) {
  
-
   const {poster, updatePoster} = props
 
   function handleMouseHoverON() {
-    // console.log(onHover)
- 
     updatePoster(props.Poster)
   }
 
   function handleMouseHoverOFF() {
- 
     updatePoster('')
   }
 
@@ -33,16 +29,14 @@ function NominatesTable(props) {
     const {poster, updatePoster} = props
 
     function denominate(value) {
-        console.log(nominates)
+        
         const remaingnominates = nominates.filter(nominate => nominate.title != value)
+
         localStorage.setItem('myValueInLocalStorage', JSON.stringify(remaingnominates));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
+
         UpdateNominates(updated_nominates)
         updatePoster('')
-        console.log(updated_nominates)
-        // UpdateNominates(remaingnominates)
-
-        
     }
     return (
         <Table id='nominates-table' className='nominate-table' hover striped bordered>
@@ -63,6 +57,7 @@ function MovieDetails(props){
   const params  = location.state.params
   const { id } = ReactRouterDOM.useParams();
   console.log('this is test1')
+  
   return (<div className='myInput'>
           Movie Name: {params.Title}
           Movie Year: {params.Year}
@@ -73,10 +68,10 @@ function MovieDetails(props){
 function MoviePoster(props) {
   const {poster, updatePoster} = props
   return(
-      
-          <img className='movie-poster' src= {poster}></img>
+        <img className='movie-poster' src= {poster}></img>
       )
 }
+
 function Movies (props) {
     const [clicked, Updateclicked] = React.useState(false)
     let history = ReactRouterDOM.useHistory()
@@ -128,10 +123,10 @@ function MoviesTable(props) {
     const movie_list = []
 
 
-    function addposter(poster) {
-      updatePoster(poster)
-      console.log(poster)
-    }
+    // function addposter(poster) {
+    //   updatePoster(poster)
+    //   console.log(poster)
+    // }
 
     function addnominates(title,Poster) {
 
@@ -150,13 +145,11 @@ function MoviesTable(props) {
                     Year={movie.Year}
                     id={movie.imdbID}
                     Poster={movie.Poster}
-                    addposter={addposter}
                     addnominates={addnominates}
                     poster={poster}
                     updatePoster={updatePoster}></Movies>)
         }
     }
-    // console.log(movie_list)
     
     return (
       <React.Fragment>
@@ -203,13 +196,12 @@ function AllComponents (props) {
   
 
   const [searchTerm, updateSearchTerm] = React.useState('');
-  // const [nominates, UpdateNominates] = React.useState(initialNominates)
 
   const {nominates, UpdateNominates} = props
   const [history, UpdateHistory] = React.useState([])
   const [poster,updatePoster] = React.useState('')
 
-  // console.log(nominates.length)
+
     return (
     
         <React.Fragment>
@@ -239,7 +231,7 @@ function AllComponents (props) {
          </React.Fragment>
     )
   
-    }
+}
   
 function Carousel() {
   const [index, setIndex] = React.useState(0);
