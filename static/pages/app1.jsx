@@ -1,9 +1,25 @@
 const {Table} = ReactBootstrap;
 
 function Nominates(props) {
+ 
+
+  const {poster, updatePoster} = props
+
+  function handleMouseHoverON() {
+    // console.log(onHover)
+ 
+    updatePoster(props.Poster)
+  }
+
+  function handleMouseHoverOFF() {
+ 
+    updatePoster('')
+  }
+
     return (
         <React.Fragment>
-        <tr>
+        <tr onMouseEnter={handleMouseHoverON} onMouseLeave={handleMouseHoverOFF}  >
+
             <td>{props.title}</td>
             <td><button className='nominates-button' onClick={() => props.denominate(props.title)}>Remove</button></td>
         </tr>
@@ -14,6 +30,7 @@ function Nominates(props) {
 
 function NominatesTable(props) {
     const {nominates, UpdateNominates} = props
+    const {poster, updatePoster} = props
 
     function denominate(value) {
         console.log(nominates)
@@ -29,7 +46,12 @@ function NominatesTable(props) {
     return (
         <Table id='nominates-table' className='nominate-table' hover striped bordered>
           <tbody>
-          {!nominates.length ? <tr>you have no nominates</tr> : nominates.map( (row,i) => <Nominates key={i} title={row.title} denominate={denominate}></Nominates>)}
+          {!nominates.length ? <tr>you have no nominates</tr> : nominates.map((row, i) => <Nominates key={i}
+                                                                                                      title={row.title}
+                                                                                                      Poster={row.poster}
+                                                                                                      updatePoster={updatePoster}
+                                                                                                      denominate={denominate}>
+                                                                                                      </Nominates>)}
           </tbody>
         </Table>
     )
@@ -57,20 +79,27 @@ function MoviePoster(props) {
 function Movies (props) {
     const [clicked, Updateclicked] = React.useState(false)
     let history = ReactRouterDOM.useHistory()
+    const {poster, updatePoster} = props
 
+    function handleMouseHoverON() {
+      updatePoster(props.Poster)
+    }
+  
+    function handleMouseHoverOFF() {
+      updatePoster('')
+    }
+  
     return (
       <React.Fragment>
-        <tr>
-          <td>{props.Title}</td>
+             
+        <tr onMouseEnter={handleMouseHoverON} onMouseLeave={handleMouseHoverOFF}>
+      
+          <td> {props.Title}</td>
           <td>({props.Year})</td>
 
           {/* <button onClick={()=>history.push(`/movies/${props.id}`, 
                                             {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
           click to see details</button> */}
-          {/* <button onClick={()=> props.addposter(props.Poster)}>Poster</button> */}
-          <td>
-            <button className='poster-button' onClick={()=> props.addposter(props.Poster)}>Poster</button>
-          </td>
           <td>
             <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster);Updateclicked(true)}}>Nominate</button>
           </td>
@@ -89,7 +118,7 @@ function MoviesTable(props) {
         fetch(`http://www.omdbapi.com/?apikey=6bd6e741&s=${searchTerm}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
+            // console.log(data)
             console.log('api is hit')
             Updatemoviedata(data.Search)
             updatePoster('')
@@ -121,7 +150,9 @@ function MoviesTable(props) {
                     id={movie.imdbID}
                     Poster={movie.Poster}
                     addposter={addposter}
-                    addnominates={addnominates}></Movies>)
+                    addnominates={addnominates}
+                    poster={poster}
+                    updatePoster={updatePoster}></Movies>)
         }
     }
     // console.log(movie_list)
@@ -146,11 +177,12 @@ function SearchBar(props){
     }
 
     return (
-    <div>
-    <input  type="text"  
-            value={searchTerm} 
-            onChange={handlechange}
-            placeholder="Search for Movie..."></input>
+    <div className='searchbar'>
+      <input className='searchbar'
+              type="text"  
+              value={searchTerm} 
+              onChange={handlechange}
+              placeholder="Search for Movie..."></input>
             
     </div>)
 }
@@ -176,7 +208,7 @@ function AllComponents (props) {
   const [history, UpdateHistory] = React.useState([])
   const [poster,updatePoster] = React.useState('')
 
-  console.log(nominates.length)
+  // console.log(nominates.length)
     return (
     
         <React.Fragment>
@@ -195,7 +227,7 @@ function AllComponents (props) {
         </div>
         <div className="myInput">
           <p className='table-titles'>Your Nominations</p>
-            <NominatesTable nominates={nominates} UpdateNominates={UpdateNominates}>
+            <NominatesTable nominates={nominates} UpdateNominates={UpdateNominates} poster={poster} updatePoster={updatePoster}>
          </NominatesTable>
          </div>
          <div>
@@ -323,10 +355,10 @@ function Test() {
     const [loggedIn, setLoggedIn] = React.useState(null);
     const [nominates, UpdateNominates] = React.useState(initialNominates)
     if (nominates.length) {
-      console.log('there is nominates')
+      // console.log('there is nominates')
     }
     else {
-      console.log('there arent any nominates')
+      // console.log('there arent any nominates')
     }
     const VARIANTS = {
       true: 'success',
