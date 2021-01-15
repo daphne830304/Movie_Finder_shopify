@@ -73,7 +73,8 @@ function MoviePoster(props) {
 }
 
 function Movies (props) {
-    const [clicked, Updateclicked] = React.useState(false)
+    const {disable} = props
+    const [clicked, Updateclicked] = React.useState(disable)
     let history = ReactRouterDOM.useHistory()
     const {poster, updatePoster} = props
 
@@ -97,7 +98,7 @@ function Movies (props) {
                                             {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
           click to see details</button> */}
           <td>
-            <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster);Updateclicked(true)}}>Nominate</button>
+            <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
           </td>
         
         </tr>
@@ -128,19 +129,42 @@ function MoviesTable(props) {
     //   console.log(poster)
     // }
 
-    function addnominates(title,Poster) {
+    function addnominates(title,Poster,id) {
 
-        localStorage.setItem('myValueInLocalStorage', JSON.stringify(nominates.concat({title:title, poster:Poster})));
+        localStorage.setItem('myValueInLocalStorage', JSON.stringify(nominates.concat({title:title, poster:Poster,id:id})));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
         UpdateNominates(updated_nominates)
 
 
     }
-    
+
+    const nominates_id = []
+    if (nominates.length) {
+      for (const nominate of nominates)
+      nominates_id.push(nominate.id)
+    }
+    // console.log(nominates_id)
     if (moviedata) {
         for (const movie of moviedata) {
+          if (nominates_id.includes(movie.imdbID)) {
+            const disable = true
+            // console.log('this movie has been nominated')
+            movie_list.push(
+              <Movies key={movie.imdbID}
+                      Title={movie.Title}
+                      Year={movie.Year}
+                      id={movie.imdbID}
+                      Poster={movie.Poster}
+                      addnominates={addnominates}
+                      poster={poster}
+                      disable = {disable}
+                      updatePoster={updatePoster}></Movies>)
+          }
+          else {
+            const disable = false
             movie_list.push(
             <Movies key={movie.imdbID}
+                    disable = {disable}
                     Title={movie.Title}
                     Year={movie.Year}
                     id={movie.imdbID}
@@ -148,6 +172,7 @@ function MoviesTable(props) {
                     addnominates={addnominates}
                     poster={poster}
                     updatePoster={updatePoster}></Movies>)
+            }
         }
     }
     
@@ -170,15 +195,19 @@ function SearchBar(props){
         updateSearchTerm(e.target.value)
     }
 
+    function clearInput() {
+      updateSearchTerm('')
+    }
+
     return (
-    <div className='searchbar'>
+    <div>
       <input className='searchbar'
               type="text"  
               value={searchTerm} 
               onChange={handlechange}
-              placeholder="Search for Movie..."></input>
-            
-    </div>)
+              placeholder="Search for Movie...">
+              </input><button className='clear-btn' onClick={clearInput}>clear</button>
+            </div>)
 }
 let initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
   

@@ -114,5 +114,18 @@
 }
 
 .searchbar {
+  display:inline-block;
   width:300px
+}
+
+.clear-btn {
+  margin-left: 1%;
+  display:inline-block;
+  border: transparent;
+  background-color: #5f4938;
+  font-family: 'Oswald', sans-serif;
+  color: #f2eadd;
+  width:60px;
+  font-size: 18px;
+
 }
