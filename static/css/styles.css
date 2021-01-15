@@ -1,8 +1,9 @@
 .myInput{
     /* position: fixed !important; */
+    max-width: 50%;
     margin-top: 4em;
     margin-left: 2em;
-    border: 1px solid #ddd; /* Add a grey border */
+    border: white; /* Add a grey border */
     /* margin-bottom: 12px; */
   }
 
@@ -13,4 +14,99 @@
 
 #tables-id {
   margin-top: 4em;
+}
+
+
+
+.homepage-button{
+  font-family: 'Oswald', sans-serif;
+  position: fixed !important;
+  margin-top: 21%;
+  margin-left: 40%;
+  background-color: transparent;
+  /* border: transparent; */
+  font-size: 30px;
+  color:white;
+}
+
+.homepage-carousel {
+  position: fixed !important;
+  max-height:400px;
+  max-width:250px;
+  border-color: yellow ;
+  margin-top: 8%;
+  margin-left:25%
+}
+.carousel-img {
+  max-height:400px;
+  max-width:250px;
+}
+
+#img-homepage {
+  position: fixed !important;
+  /* height: 100%; */
+  /* bottom:50px; */
+  width: 100%;
+  /* max-width: 1500px; */
+  height: 100%;
+}
+
+.movie-poster {
+  position: fixed !important;
+  left: 65%;
+  top:20%
+}
+
+.movie-table {
+  color:#f2eadd;
+  font-family: 'Roboto', sans-serif;
+  border-color: #f2eadd;
+  font-size: 20px;
+}
+
+.nominate-table {
+  color:#f2eadd;
+  font-family: 'Roboto', sans-serif;
+  border-color: #f2eadd;
+  font-size: 20px;
+}
+
+.table-titles {
+  color:white;
+  font-family: 'Oswald', sans-serif;
+  font-size: 35px;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color:#870a22;
+  color:#f2eadd;
+}
+
+.nominates-button {
+  border: transparent;
+  background-color: #870a22;
+  font-family: 'Oswald', sans-serif;
+  color:#bdaa8c;
+}
+
+
+.poster-button {
+  border: transparent;
+  background-color: #bdaa8c;
+  font-family: 'Oswald', sans-serif;
+  color: #870a22;
+}
+
+.header{
+  font-family: 'Oswald', sans-serif;
+  color:#bdaa8c;
+  border:#f2eadd;
+  background-color: #f2eadd;
+  font-size: 35px;
+}
+
+
+:disabled {
+  background-color: #cccccc;
+  color: #666666;
 }

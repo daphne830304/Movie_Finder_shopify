@@ -2,9 +2,14 @@
 {% block head %}
 {{ super() }}
 {% endblock %}
+
 {% block body %}
+
+<body style="background-color:#2f1d11">
+    <div id='root'></div>
+</body>
+
 <script async defer type='text/jsx' src='static/pages/app1.jsx'>
 </script>
 
-<div id='root'></div>
 {% endblock %}

@@ -1,9 +1,11 @@
+const {Table} = ReactBootstrap;
+
 function Nominates(props) {
     return (
         <React.Fragment>
         <tr>
             <td>{props.title}</td>
-            <button  onClick={() => props.denominate(props.title)}>Denominate</button>
+            <td><button className='nominates-button' onClick={() => props.denominate(props.title)}>Remove</button></td>
         </tr>
         
         </React.Fragment>
@@ -14,18 +16,22 @@ function NominatesTable(props) {
     const {nominates, UpdateNominates} = props
 
     function denominate(value) {
-        const remaingnominates = nominates.filter(nominate => nominate != value)
+        console.log(nominates)
+        const remaingnominates = nominates.filter(nominate => nominate.title != value)
         localStorage.setItem('myValueInLocalStorage', JSON.stringify(remaingnominates));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
         UpdateNominates(updated_nominates)
+        console.log(updated_nominates)
         // UpdateNominates(remaingnominates)
 
         
     }
     return (
-        <table>
-          {!nominates ? <tr>you have no nominates</tr> : nominates.map( (row,i) => <Nominates key={i} title={row} denominate={denominate}></Nominates>)}
-        </table>
+        <Table id='nominates-table' className='nominate-table' hover striped bordered>
+          <tbody>
+          {!nominates.length ? <tr>you have no nominates</tr> : nominates.map( (row,i) => <Nominates key={i} title={row.title} denominate={denominate}></Nominates>)}
+          </tbody>
+        </Table>
     )
 }
 
@@ -43,12 +49,10 @@ function MovieDetails(props){
 
 function MoviePoster(props) {
   const {poster, updatePoster} = props
-  const {searchTerm, updateSearchTerm} = props
-
-  return(<div>
-    <img src= {poster}></img>
-   
-  </div>)
+  return(
+        <div className='movie-poster'>
+          <img src= {poster}></img>
+        </div>)
 }
 function Movies (props) {
     const [clicked, Updateclicked] = React.useState(false)
@@ -60,11 +64,17 @@ function Movies (props) {
           <td>{props.Title}</td>
           <td>({props.Year})</td>
 
-          <button onClick={()=>history.push(`/movies/${props.id}`, 
+          {/* <button onClick={()=>history.push(`/movies/${props.id}`, 
                                             {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
-          click to see details</button>
-          <button onClick={()=> props.addposter(props.Poster)}>click to see poster</button>
-          <button id='nominate-id' disabled={clicked} onClick={() => {props.addnominates(props.Title);Updateclicked(true)}}>Nominate</button>
+          click to see details</button> */}
+          {/* <button onClick={()=> props.addposter(props.Poster)}>Poster</button> */}
+          <td>
+            <button className='poster-button' onClick={()=> props.addposter(props.Poster)}>Poster</button>
+          </td>
+          <td>
+            <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster);Updateclicked(true)}}>Nominate</button>
+          </td>
+        
         </tr>
         </React.Fragment>
     )
@@ -83,27 +93,22 @@ function MoviesTable(props) {
             console.log('api is hit')
             Updatemoviedata(data.Search)
             updatePoster('')
-            // console.log(data.Search)
         })
         },[searchTerm])
     const movie_list = []
-    // console.log('rendering movie')
+
 
     function addposter(poster) {
       updatePoster(poster)
       console.log(poster)
     }
 
-    function addnominates(title) {
-        
-        console.log(typeof(nominates))
-        localStorage.setItem('myValueInLocalStorage', JSON.stringify(nominates.concat(title)));
+    function addnominates(title,Poster) {
+
+        localStorage.setItem('myValueInLocalStorage', JSON.stringify(nominates.concat({title:title, poster:Poster})));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
         UpdateNominates(updated_nominates)
-        // console.log('this is hte list of the',nominates)
-        // console.log('this is hte list of the',updated_nominates)
-        // console.log(typeof(updated_nominates))
-        // console.log(typeof(nominates)
+
 
     }
     
@@ -123,9 +128,12 @@ function MoviesTable(props) {
     
     return (
       <React.Fragment>
-          <table>
-            {movie_list}
-            </table>
+         <Table id='movies-table' className='movie-table' hover striped bordered>
+           <tbody>
+            { !(movie_list).length ? <tr>Enter a Movie</tr>: movie_list }
+            </tbody>
+          </Table>
+          
       </React.Fragment>
         )
 }
@@ -154,23 +162,30 @@ let initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
   }
   
   
+
   console.log(initialNominates)
-function AllComponents () {
+
+function AllComponents (props) {
   
   
 
   const [searchTerm, updateSearchTerm] = React.useState('');
-  const [nominates, UpdateNominates] = React.useState(initialNominates)
+  // const [nominates, UpdateNominates] = React.useState(initialNominates)
+
+  const {nominates, UpdateNominates} = props
   const [history, UpdateHistory] = React.useState([])
   const [poster,updatePoster] = React.useState('')
 
-
+  console.log(nominates.length)
     return (
+    
         <React.Fragment>
+            { (nominates.length >= 5) ? <header className='header'>You got 5 nominations!!!!</header> : <header></header>}
         <div className="myInput">
             <SearchBar searchTerm={searchTerm} updateSearchTerm={updateSearchTerm}>
             </SearchBar>
-            Movie Table
+           <p className='table-titles'>Search Results</p> 
+        
             <MoviesTable searchTerm={searchTerm} 
                           nominates={nominates} 
                           UpdateNominates={UpdateNominates}
@@ -179,27 +194,102 @@ function AllComponents () {
             </MoviesTable>
         </div>
         <div className="myInput">
-          Nominates Table
+          <p className='table-titles'>Your Nominations</p>
             <NominatesTable nominates={nominates} UpdateNominates={UpdateNominates}>
          </NominatesTable>
          </div>
          <div>
          <MoviePoster poster={poster} updatePoster={updatePoster}></MoviePoster>
          </div>
-    
+        
          
          </React.Fragment>
     )
   
     }
   
-  
- function IndexPage(){
+function Carousel() {
+  const [index, setIndex] = React.useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+  return (
+    <ReactBootstrap.Carousel className='homepage-carousel' activeIndex={index} onSelect={handleSelect}>
+      <ReactBootstrap.Carousel.Item>
+        <img
+          className="carousel-img"
+          src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"
+          alt="First slide"
+        />
+      </ReactBootstrap.Carousel.Item>
+      <ReactBootstrap.Carousel.Item>
+        <img
+          className="carousel-img"
+          src="https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"
+          alt="Second slide"
+        />
+
+      </ReactBootstrap.Carousel.Item>
+      <ReactBootstrap.Carousel.Item>
+        <img
+          className="carousel-img"
+          src="https://m.media-amazon.com/images/M/MV5BMTM4OGJmNWMtOTM4Ni00NTE3LTg3MDItZmQxYjc4N2JhNmUxXkEyXkFqcGdeQXVyNTgzMDMzMTg@._V1_SX300.jpg"
+          alt="Third slide"
+        />
+
+
+      </ReactBootstrap.Carousel.Item>
+    </ReactBootstrap.Carousel>
+  )
+}
+
+function CarouselNominates(props) {
+
+
+  return(
+    <ReactBootstrap.Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={`${props.Poster}`}
+      alt={`${props.title}`}
+    />
+    <ReactBootstrap.Carousel.Caption>
+      <h3>First slide label</h3>
+      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+    </ReactBootstrap.Carousel.Caption>
+  </ReactBootstrap.Carousel.Item>
+  )
+}
+
+function IndexPage(props){
+   const {nominates, UpdateNominates} = props
+   const [index, setIndex] = React.useState(0);
+
+   const handleSelect = (selectedIndex, e) => {
+     setIndex(selectedIndex);
+   };
+
+  const nominates_poster = []
+  if (nominates.length) {
+    for (const poster of nominates) {
+    nominates_poster.push(<CarouselNominates key={nominates.indexOf(poster)} title={poster.title}Poster={poster.poster}></CarouselNominates>)
+    }
+  }
+  console.log(nominates_poster)
    let history = ReactRouterDOM.useHistory()
    return (
-     <div>
-       <button className='myInput' onClick={()=>(history.push('/movies'))}>Click to enter</button>
-     </div>
+     <React.Fragment>
+       
+       {/* {!nominates.length ? <div>you have no nominates</div> : <div>{nominates}</div>} */}
+       <img id='img-homepage' src='/static/img/movietheater.jpg'></img>
+       <button className='homepage-button' onClick={()=>(history.push('/movies'))}>Click To Start Browsing Movies</button>
+      {/* <Carousel></Carousel> */}
+  
+       {/* <ReactBootstrap.Carousel className='homepage-carousel' activeIndex={index} onSelect={handleSelect}>
+          {nominates_poster}
+       </ReactBootstrap.Carousel> */}
+     </React.Fragment>
    )
  }
   
@@ -231,7 +321,13 @@ function Test() {
   function App() {
     
     const [loggedIn, setLoggedIn] = React.useState(null);
-  
+    const [nominates, UpdateNominates] = React.useState(initialNominates)
+    if (nominates.length) {
+      console.log('there is nominates')
+    }
+    else {
+      console.log('there arent any nominates')
+    }
     const VARIANTS = {
       true: 'success',
       false: 'danger'
@@ -268,21 +364,21 @@ function Test() {
   
       false: (
         <div id='homepage-login' class='h1-homepage'>
-          <ReactBootstrap.Navbar id='homepage-nav-bar' className='navbarcolor' fixed="top" variant="light">
+          {/* <ReactBootstrap.Navbar id='homepage-nav-bar' className='navbarcolor' fixed="top" variant="light">
             <ReactBootstrap.Navbar.Brand className='home-navbarlink' href="/">HOME
           </ReactBootstrap.Navbar.Brand>
-            <ReactBootstrap.Nav >
-            <ReactBootstrap.Nav.Link >
-                <ReactRouterDOM.Link className='navbarlink' to='/movies'>FILMS
+            <ReactBootstrap.Nav > */}
+            {/* <ReactBootstrap.Nav.Link > */}
+                <ReactRouterDOM.Link className='navbarlink' to='/movies'>
               </ReactRouterDOM.Link>
-              </ReactBootstrap.Nav.Link>
-              <ReactBootstrap.Nav.Link >
-                <ReactRouterDOM.Link className='navbarlink' to='/tables'>tables
+              {/* </ReactBootstrap.Nav.Link>
+              <ReactBootstrap.Nav.Link > */}
+                <ReactRouterDOM.Link className='navbarlink' to='/tables'>
               </ReactRouterDOM.Link>
-              </ReactBootstrap.Nav.Link>
+              {/* </ReactBootstrap.Nav.Link>
             </ReactBootstrap.Nav>
-  
-          </ReactBootstrap.Navbar>
+   */}
+          {/* </ReactBootstrap.Navbar> */}
         </div>
   
       )
@@ -296,13 +392,13 @@ function Test() {
           
           <ReactRouterDOM.Switch>
           <ReactRouterDOM.Route path="/" exact >
-                <IndexPage/>
+                <IndexPage nominates={nominates} UpdateNominates={UpdateNominates} />
               </ReactRouterDOM.Route>
           <ReactRouterDOM.Route path="/movies/:id" >
                 <MovieDetails/>
               </ReactRouterDOM.Route>
             <ReactRouterDOM.Route path='/movies'>
-              <AllComponents />
+              <AllComponents nominates={nominates} UpdateNominates={UpdateNominates} />
             </ReactRouterDOM.Route>
             <ReactRouterDOM.Route path='/tables'>
             <AllComponents/>
@@ -317,7 +413,7 @@ function Test() {
      
     );
   }
-  
+
   ReactDOM.render(
     <App />,
     document.getElementById('root'))
