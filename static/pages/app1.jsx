@@ -38,6 +38,7 @@ function NominatesTable(props) {
         localStorage.setItem('myValueInLocalStorage', JSON.stringify(remaingnominates));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
         UpdateNominates(updated_nominates)
+        updatePoster('')
         console.log(updated_nominates)
         // UpdateNominates(remaingnominates)
 
