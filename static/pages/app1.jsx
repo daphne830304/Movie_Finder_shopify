@@ -73,9 +73,9 @@ function MovieDetails(props){
 function MoviePoster(props) {
   const {poster, updatePoster} = props
   return(
-        <div className='movie-poster'>
-          <img src= {poster}></img>
-        </div>)
+      
+          <img className='movie-poster' src= {poster}></img>
+      )
 }
 function Movies (props) {
     const [clicked, Updateclicked] = React.useState(false)

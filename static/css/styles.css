@@ -54,7 +54,8 @@
 .movie-poster {
   position: fixed !important;
   left: 65%;
-  top:20%
+  top:20%;
+  width:20%
 }
 
 .movie-table {
