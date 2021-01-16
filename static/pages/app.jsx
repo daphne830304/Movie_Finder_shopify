@@ -125,7 +125,12 @@ function MoviesTable(props) {
     const {poster, updatePoster} = props
     
     React.useEffect(() => {
-        fetch(`http://www.omdbapi.com/?apikey=6bd6e741&s=${searchTerm}`)
+        fetch(`http://www.omdbapi.com/?apikey=6bd6e741&s=${searchTerm}`,{
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'text/plain',
+          }
+        })
         .then(res => res.json())
         .then(data => {
             // console.log(data)
@@ -193,7 +198,7 @@ function MoviesTable(props) {
       <React.Fragment>
          <Table id='movies-table' className='movie-table' hover striped bordered>
            <tbody>
-            { !(movie_list).length ? <tr>Enter a Movie</tr>: movie_list }
+            { !(movie_list).length ? <tr>movie name. eg: "Iron Man"</tr>: movie_list }
             </tbody>
           </Table>
           
