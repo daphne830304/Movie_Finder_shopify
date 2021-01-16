@@ -1,7 +1,25 @@
 const {Table} = ReactBootstrap;
 
+
+function NominateButton(props) {
+
+  const {disable} = props
+  const {clicked, Updateclicked} =props
+
+  return (
+    <React.Fragment>
+    <button className='nominates-button' disabled={disable} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);props.Updateclicked(true)}}>Nominate</button>
+      {/* {disable ? <button className='nominates-button' disable={disable}>{`${disable}`}</button>: 
+      <button className='nominates-button' disable={disable}>disabled</button>} */}
+      
+    </React.Fragment>
+  
+  )
+}
+
 function Nominates(props) {
- 
+  
+  
   const {poster, updatePoster} = props
 
   function handleMouseHoverON() {
@@ -24,7 +42,10 @@ function Nominates(props) {
     )
 }
 
+
 function NominatesTable(props) {
+
+    
     const {nominates, UpdateNominates} = props
     const {poster, updatePoster} = props
 
@@ -36,7 +57,8 @@ function NominatesTable(props) {
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
 
         UpdateNominates(updated_nominates)
-        updatePoster('')
+       
+        // updatePoster('')
     }
     return (
         <Table id='nominates-table' className='nominate-table' hover striped bordered>
@@ -72,18 +94,6 @@ function MoviePoster(props) {
       )
 }
 
-function NominateButton(props) {
-
-  const {clicked, Updateclicked} =props
-
-  React.useEffect( 
-
-  )
-
-  return (
-    <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
-  )
-}
 
 function Movies (props) {
     const {disable} = props
@@ -98,7 +108,7 @@ function Movies (props) {
     function handleMouseHoverOFF() {
       updatePoster('')
     }
-  
+    // console.log('updating nominates')
     return (
       <React.Fragment>
              
@@ -111,8 +121,10 @@ function Movies (props) {
                                             {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
           click to see details</button> */}
           <td>
-            <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
+            <button className='nominates-button' disabled={disable} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
+            {/* <NominateButton disable={disable} addnominates={props.addnominates} id={props.id} Title={props.Title} Poster={props.Poster} Updateclicked={Updateclicked}></NominateButton> */}
           </td>
+
         
         </tr>
         </React.Fragment>
@@ -135,12 +147,6 @@ function MoviesTable(props) {
         })
         },[searchTerm])
     const movie_list = []
-
-
-    // function addposter(poster) {
-    //   updatePoster(poster)
-    //   console.log(poster)
-    // }
 
     function addnominates(title,Poster,id) {
 
