@@ -125,12 +125,7 @@ function MoviesTable(props) {
     const {poster, updatePoster} = props
     
     React.useEffect(() => {
-        fetch(`http://www.omdbapi.com/?apikey=6bd6e741&s=${searchTerm}`,{
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'text/plain',
-          }
-        })
+        fetch(`https://www.omdbapi.com/?apikey=6bd6e741&s=${searchTerm}`)
         .then(res => res.json())
         .then(data => {
             // console.log(data)
