@@ -72,6 +72,19 @@ function MoviePoster(props) {
       )
 }
 
+function NominateButton(props) {
+
+  const {clicked, Updateclicked} =props
+
+  React.useEffect( 
+
+  )
+
+  return (
+    <button className='nominates-button' disabled={clicked} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
+  )
+}
+
 function Movies (props) {
     const {disable} = props
     const [clicked, Updateclicked] = React.useState(disable)
@@ -370,79 +383,19 @@ function Test() {
   </div>)
 }
   
-  const AuthContext = React.createContext(null);
   
   function App() {
     
-    const [loggedIn, setLoggedIn] = React.useState(null);
-    const [nominates, UpdateNominates] = React.useState(initialNominates)
-    if (nominates.length) {
-      // console.log('there is nominates')
-    }
-    else {
-      // console.log('there arent any nominates')
-    }
-    const VARIANTS = {
-      true: 'success',
-      false: 'danger'
-    };
-  
-    React.useEffect(() => {
-      fetch('/api/check_session')
-        .then(res => res.json())
-        .then(data => {
-          setLoggedIn(data.session) 
-          // console.log(data.session)
-          // console.log(loggedIn)
-        })
-    }, [loggedIn]);
-  
-    const NavLinks = {
-      true: (
-  
-          <ReactBootstrap.Navbar id='homepage-nav-bar' className='navbarcolor' fixed="top" variant="light">
-            <ReactBootstrap.Navbar.Brand className='home-navbarlink' href="/">HOME</ReactBootstrap.Navbar.Brand>
-            <ReactBootstrap.Nav >
-              <ReactBootstrap.Nav.Link >
-                <ReactRouterDOM.Link className='navbarlink' to='/movies'>FILMS
-              </ReactRouterDOM.Link>
-              </ReactBootstrap.Nav.Link>
-              <ReactBootstrap.Nav.Link >
-                <ReactRouterDOM.Link className='navbarlink' to='/tables'>tables
-              </ReactRouterDOM.Link>
-              </ReactBootstrap.Nav.Link>
-            </ReactBootstrap.Nav>
-           
-          </ReactBootstrap.Navbar>
-      ),
-  
-      false: (
-        <div id='homepage-login' class='h1-homepage'>
-          {/* <ReactBootstrap.Navbar id='homepage-nav-bar' className='navbarcolor' fixed="top" variant="light">
-            <ReactBootstrap.Navbar.Brand className='home-navbarlink' href="/">HOME
-          </ReactBootstrap.Navbar.Brand>
-            <ReactBootstrap.Nav > */}
-            {/* <ReactBootstrap.Nav.Link > */}
-                <ReactRouterDOM.Link className='navbarlink' to='/movies'>
-              </ReactRouterDOM.Link>
-              {/* </ReactBootstrap.Nav.Link>
-              <ReactBootstrap.Nav.Link > */}
-                <ReactRouterDOM.Link className='navbarlink' to='/tables'>
-              </ReactRouterDOM.Link>
-              {/* </ReactBootstrap.Nav.Link>
-            </ReactBootstrap.Nav>
-   */}
-          {/* </ReactBootstrap.Navbar> */}
-        </div>
-  
-      )
-    };
+    const [nominates, UpdateNominates] = React.useState(initialNominates)  
+    
     return (
-      <AuthContext.Provider value={{loggedIn, setLoggedIn}}>
   
         <ReactRouterDOM.BrowserRouter>
           
-          {NavLinks[loggedIn]}
+          <ReactRouterDOM.Link className='navbarlink' to='/movies'>
+              </ReactRouterDOM.Link>
+              <ReactRouterDOM.Link className='navbarlink' to='/tables'>
+              </ReactRouterDOM.Link>
           
           <ReactRouterDOM.Switch>
           <ReactRouterDOM.Route path="/" exact >
@@ -460,12 +413,7 @@ function Test() {
           </ReactRouterDOM.Switch>
         
         </ReactRouterDOM.BrowserRouter>
-   
-  
-  
-    </AuthContext.Provider>
-     
-    );
+    )
   }
 
   ReactDOM.render(
