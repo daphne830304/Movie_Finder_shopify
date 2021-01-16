@@ -23,5 +23,5 @@ if __name__ == "__main__":
     # connect_to_db(app)
     # DebugToolbarExtension(app)
 
-    # app.run('0.0.0.0')
-    app.run()
+    app.run('0.0.0.0')
+    # app.run()
