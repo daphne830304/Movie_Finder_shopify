@@ -58,7 +58,7 @@ function NominatesTable(props) {
 
         UpdateNominates(updated_nominates)
        
-        // updatePoster('')
+        updatePoster(null)
     }
     return (
         <Table id='nominates-table' className='nominate-table' hover striped bordered>
