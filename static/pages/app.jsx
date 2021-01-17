@@ -35,7 +35,7 @@ function Nominates(props) {
         <tr onMouseEnter={handleMouseHoverON} onMouseLeave={handleMouseHoverOFF}  >
 
             <td>{props.title}</td>
-            <td><button className='nominates-button' onClick={() => props.denominate(props.title)}>Remove</button></td>
+            <td><button className='nominates-button' onClick={() => props.denominate(props.id)}>Remove</button></td>
         </tr>
         
         </React.Fragment>
@@ -51,7 +51,7 @@ function NominatesTable(props) {
 
     function denominate(value) {
         
-        const remaingnominates = nominates.filter(nominate => nominate.title != value)
+        const remaingnominates = nominates.filter(nominate => nominate.id != value)
 
         localStorage.setItem('myValueInLocalStorage', JSON.stringify(remaingnominates));
         const updated_nominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
@@ -64,6 +64,7 @@ function NominatesTable(props) {
         <Table id='nominates-table' className='nominate-table' hover striped bordered>
           <tbody>
           {!nominates.length ? <tr>you have no nominates</tr> : nominates.map((row, i) => <Nominates key={i}
+                                                                                                      id={row.id}
                                                                                                       title={row.title}
                                                                                                       Poster={row.poster}
                                                                                                       updatePoster={updatePoster}
