@@ -99,7 +99,7 @@ function MovieDetailsElement(props) {
       <img className='movie-poster' src={props.Poster}></img>
       <div>
       <div className='additional-info'> 
-      Addition infomation<br></br>
+      Addition infomation
         <div className='movie-secondary-details'>
             Box Office: {props.BoxOffice} <br></br>
             Rated: {props.Rated} <br></br>
