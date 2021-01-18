@@ -141,7 +141,7 @@
 .movie-details{
   max-width: 50%;
   margin-top: 1em;
-  margin-left: 5em;
+  margin-left: 4em;
   border-color: white;
   color:white;
   font-size: 50px;
@@ -199,7 +199,7 @@
 
 .movie-details-poster{
   position: fixed !important;
-  left:66%;
+  left:65%;
   top:20%;
   width:20%
 }
