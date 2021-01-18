@@ -96,7 +96,7 @@ function MovieDetailsElement(props) {
             Plot
             <div className='plot-text'>{props.Plot}</div>
       </div>
-      <img className='movie-poster' src={props.Poster}></img>
+      <img className='movie-details-poster' src={props.Poster}></img>
       <div>
       <div className='additional-info'> 
       Addition infomation

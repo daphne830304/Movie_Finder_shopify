@@ -196,3 +196,10 @@
 .movielinks:hover {
     color: #FFFEAD; 
 }
+
+.movie-details-poster{
+  position: fixed !important;
+  left:66%;
+  top:20%;
+  width:20%
+}
