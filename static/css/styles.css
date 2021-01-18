@@ -137,3 +137,55 @@
   color:aliceblue;
   background-color: black;
 }
+
+.movie-details{
+  max-width: 50%;
+  margin-top: 2em;
+  margin-left: 5em;
+  border-color: white;
+  color:white;
+  font-size: 40px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.movie-primary-details{
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.movie-plot {
+  margin-top: 2%;
+  font-size: 25px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.movie-secondary-details{
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.additional-info{
+  margin-top: 5%
+}
+
+.plot-text {
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.back-btn{
+  border: transparent;
+  background-color: #870a22;
+  font-family: 'Oswald', sans-serif;
+  color: #f2eadd;
+  font-size: 18px;
+}
+
+.back-btn:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.movielinks:hover {
+    color: #FFFEAD; 
+}

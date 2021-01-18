@@ -75,17 +75,74 @@ function NominatesTable(props) {
     )
 }
 
+function MovieDetailsElement(props) {
+  let history = ReactRouterDOM.useHistory()
+  return (
+   <React.Fragment>
+     <div  className='movie-details'>
+       <button className='back-btn' onClick={()=>history.push('/movies')}>Back to search results</button>
+      <div>
+          Movie Title: {props.Title}
+          <div className='movie-primary-details'>
+              Released: {props.Released} <br></br>
+              Language: {props.Language} <br></br>
+              Box Office: {props.BoxOffice} <br></br>
+              Director: {props.Director}
+          </div>
+      </div>
+      <div className='movie-plot'>
+            Plot
+            <div className='plot-text'>{props.Plot}</div>
+      </div>
+      <img className='movie-poster' src={props.Poster}></img>
+      <div>
+      <div className='additional-info'> 
+      Addition infomation<br></br>
+        <div className='movie-secondary-details'>
+            Rated: {props.Rated} <br></br>
+            Awards: {props.Awards} <br></br>
+            Actors: {props.Actors} <br></br>
+        </div>
+        </div>
+      </div>
+      </div>
+    </React.Fragment>
+  )
+}
+
 function MovieDetails(props){
   const location = ReactRouterDOM.useLocation();
   const params  = location.state.params
   const { id } = ReactRouterDOM.useParams();
-  console.log('this is test1')
+  // console.log('this is test1')
+
+  const [moviedetails, Updatemoviedetilas] = React.useState([])
+
+  React.useEffect(() => {
+    fetch(`https://www.omdbapi.com/?apikey=6bd6e741&i=${params.id}`)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        // console.log('api is hit')
+        Updatemoviedetilas(data)
+    })
+    },[])
+
+    // console.log(moviedetails)
   
-  return (<div className='myInput'>
-          Movie Name: {params.Title}
-          Movie Year: {params.Year}
-          <button>back to search result</button>
-          <img src={params.Poster}></img></div>)
+  return (<div>
+             <MovieDetailsElement     key = {moviedetails.imdbID}
+                                      Title={moviedetails.Title}
+                                      Released={moviedetails.Released} 
+                                      Language={moviedetails.Language}
+                                      BoxOffice={moviedetails.BoxOffice}
+                                      Director={moviedetails.Director}
+                                      Plot={moviedetails.Plot}
+                                      Rated={moviedetails.Rated}
+                                      Awards={moviedetails.Awards}
+                                      Actors={moviedetails.Actors}
+                                      Poster={moviedetails.Poster}></MovieDetailsElement>
+          </div>)
 }
 
 function MoviePoster(props) {
@@ -97,6 +154,7 @@ function MoviePoster(props) {
 
 
 function Movies (props) {
+    const {moviedata, Updatemoviedata} = props
     const {disable} = props
     const [clicked, Updateclicked] = React.useState(disable)
     let history = ReactRouterDOM.useHistory()
@@ -115,12 +173,13 @@ function Movies (props) {
              
         <tr onMouseEnter={handleMouseHoverON} onMouseLeave={handleMouseHoverOFF}>
       
-          <td> {props.Title}</td>
+          <td> <a className='movielinks' href='' onClick={(event)=>{event.preventDefault();history.push(`/movies/${props.id}`, 
+                                            {params:{id:props.id}})}}>{props.Title}</a></td>
+         
           <td>({props.Year})</td>
 
           {/* <button onClick={()=>history.push(`/movies/${props.id}`, 
-                                            {params:{'Title':props.Title,'Year':props.Year,'imbdID':props.imdbID,'Poster':props.Poster}})}>
-          click to see details</button> */}
+                                            {params:{id:props.id}})}>click to see details</button> */}
           <td>
             <button className='nominates-button' disabled={disable} onClick={() => {props.addnominates(props.Title,props.Poster,props.id);Updateclicked(true)}}>Nominate</button>
             {/* <NominateButton disable={disable} addnominates={props.addnominates} id={props.id} Title={props.Title} Poster={props.Poster} Updateclicked={Updateclicked}></NominateButton> */}
@@ -131,6 +190,8 @@ function Movies (props) {
         </React.Fragment>
     )
   }
+
+
 function MoviesTable(props) {
     const {searchTerm, updateSearchTerm}= props
     const {nominates, UpdateNominates} = props
@@ -142,11 +203,12 @@ function MoviesTable(props) {
         .then(res => res.json())
         .then(data => {
             // console.log(data)
-            console.log('api is hit')
+            // console.log('api is hit')
             Updatemoviedata(data.Search)
             updatePoster('')
         })
         },[searchTerm])
+
     const movie_list = []
 
     function addnominates(title,Poster,id) {
@@ -178,7 +240,9 @@ function MoviesTable(props) {
                       addnominates={addnominates}
                       poster={poster}
                       disable = {disable}
-                      updatePoster={updatePoster}></Movies>)
+                      updatePoster={updatePoster}
+                      moviedata={moviedata}>
+                      </Movies>)
           }
           else {
             const disable = false
@@ -191,7 +255,8 @@ function MoviesTable(props) {
                     Poster={movie.Poster}
                     addnominates={addnominates}
                     poster={poster}
-                    updatePoster={updatePoster}></Movies>)
+                    updatePoster={updatePoster}
+                    moviedata={moviedata}></Movies>)
             }
         }
     }
@@ -207,16 +272,23 @@ function MoviesTable(props) {
       </React.Fragment>
         )
 }
+
+
+
 function SearchBar(props){
     const {searchTerm, updateSearchTerm}= props
-    // console.log('search bar')
     
     function handlechange(e) {
-        updateSearchTerm(e.target.value)
+        sessionStorage.setItem('SearchTermInLocalStorage', JSON.stringify(e.target.value));
+        const updated_searchterm = JSON.parse(sessionStorage.getItem('SearchTermInLocalStorage'))
+        // console.log(updated_searchterm)
+        updateSearchTerm(updated_searchterm)
     }
 
     function clearInput() {
-      updateSearchTerm('')
+      sessionStorage.setItem('SearchTermInLocalStorage', JSON.stringify(''));
+      const updated_searchterm = JSON.parse(sessionStorage.getItem('SearchTermInLocalStorage'))
+      updateSearchTerm(updated_searchterm)
     }
 
     return (
@@ -229,22 +301,40 @@ function SearchBar(props){
               </input><button className='clear-btn' onClick={clearInput}>clear</button>
             </div>)
 }
+
+
 let initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
   
   if (!initialNominates) {
     localStorage.setItem('myValueInLocalStorage', JSON.stringify([]));
     initialNominates = JSON.parse(localStorage.getItem('myValueInLocalStorage'))
   }
-  
-  
+  //  console.log(initialNominates)
 
-  console.log(initialNominates)
+
+
+function usePersistedState(key, defaultValue) {
+  const [state, setState] = React.useState(
+    localStorage.getItem(key) || defaultValue
+  );
+  useEffect(() => {
+    localStorage.setItem(key, state);
+  }, [key, state]);
+  return [state, setState];
+}
 
 function AllComponents (props) {
-  
-  
 
-  const [searchTerm, updateSearchTerm] = React.useState('');
+  let initialSearchTerm = JSON.parse(sessionStorage.getItem('SearchTermInLocalStorage'))
+  if (!initialSearchTerm) {
+    sessionStorage.setItem('SearchTermInLocalStorage', JSON.stringify(''));
+    initialSearchTerm = JSON.parse(sessionStorage.getItem('SearchTermInLocalStorage'))
+  }
+  //  console.log(initialNominates)
+
+  // console.log(initialSearchTerm)
+
+  const [searchTerm, updateSearchTerm] = React.useState(initialSearchTerm);
 
   const {nominates, UpdateNominates} = props
   const [history, UpdateHistory] = React.useState([])
@@ -350,7 +440,7 @@ function IndexPage(props){
     nominates_poster.push(<CarouselNominates key={nominates.indexOf(poster)} title={poster.title}Poster={poster.poster}></CarouselNominates>)
     }
   }
-  console.log(nominates_poster)
+  // console.log(nominates_poster)
    let history = ReactRouterDOM.useHistory()
    return (
      <React.Fragment>
