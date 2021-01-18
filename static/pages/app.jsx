@@ -82,12 +82,14 @@ function MovieDetailsElement(props) {
      <div  className='movie-details'>
        <button className='back-btn' onClick={()=>history.push('/movies')}>Back to search results</button>
       <div>
-          Movie Title: {props.Title}
+          {props.Title}
           <div className='movie-primary-details'>
               Released: {props.Released} <br></br>
               Language: {props.Language} <br></br>
-              Box Office: {props.BoxOffice} <br></br>
-              Director: {props.Director}
+              Director: {props.Director}<br></br>
+              Type: {props.Type}<br></br>
+              
+              
           </div>
       </div>
       <div className='movie-plot'>
@@ -99,6 +101,7 @@ function MovieDetailsElement(props) {
       <div className='additional-info'> 
       Addition infomation<br></br>
         <div className='movie-secondary-details'>
+            Box Office: {props.BoxOffice} <br></br>
             Rated: {props.Rated} <br></br>
             Awards: {props.Awards} <br></br>
             Actors: {props.Actors} <br></br>
@@ -113,7 +116,7 @@ function MovieDetailsElement(props) {
 function MovieDetails(props){
   const location = ReactRouterDOM.useLocation();
   const params  = location.state.params
-  const { id } = ReactRouterDOM.useParams();
+  // const { id } = ReactRouterDOM.useParams();
   // console.log('this is test1')
 
   const [moviedetails, Updatemoviedetilas] = React.useState([])
@@ -141,6 +144,7 @@ function MovieDetails(props){
                                       Rated={moviedetails.Rated}
                                       Awards={moviedetails.Awards}
                                       Actors={moviedetails.Actors}
+                                      Type={moviedetails.Type}
                                       Poster={moviedetails.Poster}></MovieDetailsElement>
           </div>)
 }
