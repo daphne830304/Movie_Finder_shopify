@@ -15,21 +15,12 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-    
-      - name: Check Out Repo
-        uses: actions/checkout@v2
-
-
-      - name: upload image to ECR
-        uses: appleboy/docker-ecr-action@master
+      - uses: actions/checkout@v2
+      - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
         with:
-          access_key: ${{ secrets.aws_access_key_id }}
-          secret_key: ${{ secrets.aws_secret_access_key }}
-          registry: ${{ secrets.registry }}
-#           cache_from: ${{ secrets.cache }}
+          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          account_id: 720641203850
           repo: movie-app
           region: us-east-2
-          auto_tag: true
-          daemon_off: false
-          dockerfile: ./Dockerfile
-          context: .
+          tags: latest
