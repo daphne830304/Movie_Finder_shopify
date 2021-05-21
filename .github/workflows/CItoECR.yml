@@ -20,16 +20,12 @@ jobs:
         uses: actions/checkout@v2
 
 
-      - name: upload image to ECR
-        uses: appleboy/docker-ecr-action@master
+      - run: docker build --tag movie-app:v1 .
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
         with:
-          access_key: ${{ secrets.aws_access_key_id }}
-          secret_key: ${{ secrets.aws_secret_access_key }}
-          registry: ${{ secrets.registry }}
-#           cache_from: ${{ secrets.cache }}
-          repo: movie-app
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-2
-          auto_tag: true
-          daemon_off: false
-          dockerfile: Dockerfile
-          context: .
+          image: movie-app:v
