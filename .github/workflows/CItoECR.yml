@@ -1,0 +1,35 @@
+name: CI to ECR
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  # This workflow contains a single job called "build"
+  #name of job, in this case, build, is arbituary
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+
+
+      - name: upload image to ECR
+        uses: appleboy/docker-ecr-action@master
+        with:
+          access_key: ${{ secrets.aws_access_key_id }}
+          secret_key: ${{ secrets.aws_secret_access_key }}
+          registry: ${{ secrets.registry }}
+#           cache_from: ${{ secrets.cache }}
+          repo: movie-app
+          region: us-east-2
+          auto_tag: true
+          daemon_off: false
+          dockerfile: ./Dockerfile
+          context: .
