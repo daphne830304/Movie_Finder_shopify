@@ -18,10 +18,11 @@ def index(path):
     return render_template("index.html")
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 #     # app.debug = False
 #     # connect_to_db(app)
 #     # DebugToolbarExtension(app)
 
-#     app.run('0.0.0.0')
-#     # app.run()
+    app.run('0.0.0.0')
+    # app.run()
+    # app.run(debug = True)
