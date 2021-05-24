@@ -20,9 +20,9 @@ env:
   CONTAINER_NAME: movie-app           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
-# defaults:
-#   run:
-#     shell: bash
+defaults:
+  run:
+    shell: bash
 
 jobs:
   deploy:
