@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:720641203850:task-definition/first-run-task-definition:13",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:720641203850:task-definition/first-run-task-definition:16",
     "containerDefinitions": [
         {
             "name": "movie-app",
-            "image": "720641203850.dkr.ecr.us-east-2.amazonaws.com/movie-app:07f7cb0d82d4e5a61474c7aefe3a8c1ee92d9220",
+            "image": "720641203850.dkr.ecr.us-east-2.amazonaws.com/movie-app:d9ce64f2a540c49e8f4a5931ff750b497e75d289",
             "cpu": 0,
             "memoryReservation": 128,
             "links": [],
@@ -33,7 +33,7 @@
     "family": "first-run-task-definition",
     "executionRoleArn": "arn:aws:iam::720641203850:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 13,
+    "revision": 16,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -72,6 +72,6 @@
     ],
     "cpu": "256",
     "memory": "512",
-    "registeredAt": "2021-05-24T19:30:48.924000-07:00",
+    "registeredAt": "2021-05-25T14:09:16.764000-07:00",
     "registeredBy": "arn:aws:iam::720641203850:user/dhsieh"
 }
