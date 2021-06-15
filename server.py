@@ -14,7 +14,7 @@ app.config["SECRET_KEY"] = 'vu4wu06wu06'
 @app.route('/<path:path>')
 def index(path):
     """Show homepage."""
-
+    print('this is the ipaddress',request.remote_addr)
     return render_template("index.html")
 
 
@@ -23,5 +23,5 @@ if __name__ == "__main__":
     # connect_to_db(app)
     # DebugToolbarExtension(app)
 
-    # app.run('0.0.0.0')
-    app.run()
+    app.run('0.0.0.0')
+    # app.run()
